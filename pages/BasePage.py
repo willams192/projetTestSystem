@@ -9,3 +9,6 @@ class BasePage:
 
     def close(self):
         self.driver.quit()
+
+    def is_url_valid(self, url):
+        return self.driver.current_url == url
