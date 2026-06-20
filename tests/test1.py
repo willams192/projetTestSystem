@@ -1,5 +1,5 @@
 from selenium import webdriver
-from Page.LoginPage import LoginPage
+from pages.LoginPage import LoginPage
 
 
 class TestLoginPage:
