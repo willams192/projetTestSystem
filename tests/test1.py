@@ -1,5 +1,3 @@
-from time import sleep
-
 from pages.AddCustomerPage import AddCustomerPage
 
 
