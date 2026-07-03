@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 from pages.BasePage import BasePage
 
@@ -14,6 +15,9 @@ class AccountPage(BasePage):
     balance_element = (By.CSS_SELECTOR, 'strong.ng-binding')
     message_element = (By.CSS_SELECTOR, 'span.error.ng-binding')
     transaction_rows = (By.CSS_SELECTOR, 'table tbody tr')
+    account_selector = (By.CSS_SELECTOR, "#accountSelect")
+    account_number = (By.CSS_SELECTOR, "div[ng-hide='noAccount'] > strong:first-of-type")
+    currency_type = (By.CSS_SELECTOR, "div[ng-hide='noAccount'] > strong:nth-of-type(3)")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -65,6 +69,7 @@ class AccountPage(BasePage):
     def click_transactions_tab(self):
         self.driver.find_element(*self.transactions_tab).click()
 
+
     def get_transactions(self):
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.presence_of_element_located(self.transaction_rows))
@@ -79,3 +84,24 @@ class AccountPage(BasePage):
                     'type': cells[2].text
                 })
         return transactions
+    
+    def select_specific_account_selector(self, account):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.presence_of_element_located(self.account_selector))
+        account_list = self.driver.find_element(*self.account_selector)
+        seletor = Select(account_list)
+        seletor.select_by_visible_text(account)
+
+    def get_account_number(self):
+        wait = WebDriverWait(self.driver, 10)
+        number = wait.until(EC.presence_of_element_located(self.account_number))
+        return number.text
+    
+    def get_currency_type(self):
+        wait = WebDriverWait(self.driver, 10)
+        currency = wait.until(EC.presence_of_element_located(self.currency_type))
+        return currency.text
+
+
+
+

@@ -44,6 +44,18 @@ def created_customer(open_browser):
     if customers_page.is_customer_in_list(add_customer_page.name_customer):
         customers_page.delete_customer_by_name(add_customer_page.name_customer)
 
+@pytest.fixture
+def created_customer_account(created_customer):
+    add_customer_page = created_customer
+
+    open_account_page = OpenAccountPage(add_customer_page.driver)
+    open_account_page.click_open_account_tab()
+    open_account_page.select_customer("Teste Testador")
+    open_account_page.select_currency("Dollar")
+    open_account_page.click_process()
+
+    return add_customer_page
+
 
 @pytest.fixture
 def logged_in_customer(created_customer):
